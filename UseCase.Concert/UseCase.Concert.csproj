@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Radzen.Blazor" Version="4.11.2" />
+    <PackageReference Include="Syncfusion.Blazor.Core" Version="21.2.6" />
+    <PackageReference Include="Syncfusion.Blazor.Navigations" Version="21.2.6" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="21.2.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\UseCase.Service\UseCase.Service.csproj" />
+  </ItemGroup>
+
+</Project>

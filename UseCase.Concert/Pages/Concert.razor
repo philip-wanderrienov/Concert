@@ -1,0 +1,176 @@
+﻿@page "/concert"
+
+<PageTitle>Audience Concert</PageTitle>
+
+@using UseCase.Entity;
+@using UseCase.Service;
+@*@inject IAudienceService audienceService*@
+
+<h1>Audience Concert</h1>
+
+<p>This component demonstrates to showing up a Audiences on a concert.</p>
+
+<!-- CSS -->
+<style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, 2fr); /* Three columns */
+        grid-gap: 10px; /* Gap between grid items */
+    }
+
+    .grid-item {
+        /*background-color: #ccc;*/
+        padding: 10px;
+    }
+</style>
+
+<!-- Data Input using Blazor component and trying using a Grid component -->
+
+<EditForm Model="audiModel">
+    <div class="grid-container">
+        <div class="grid-item">
+            <label for="Id">Id: </label>
+            <InputNumber id="Id" class="form-control" @bind-Value="@audiModel.Id"></InputNumber>
+        </div>
+        <div class="grid-item">
+            <label for="Name">Name: </label>
+            <InputText id="Name" class="form-control" @bind-Value="audiModel.Name"></InputText>
+        </div>
+        <div class="grid-item">
+            <label for="SeatNumber">Seat Number: </label>
+            <InputNumber id="SeatNumber" class="form-control" @bind-Value="audiModel.SeatNumber"></InputNumber>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary" onclick="@AddToList">Submit</button>
+</EditForm>
+
+<table class="table align-content-between">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Seat Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var index in audiService)
+        {
+            <tr>
+                <td>
+                    @if (intEditModes.ContainsKey(index.Id) && intEditModes[index.Id])
+                    {
+                        <textarea class="form-control" @bind="index.Id"></textarea>
+                    }
+                    else
+                    {
+                        @index.Id
+                    }
+                </td>
+                <td>
+                    @if (stringEditModes.ContainsKey(index.Name) && stringEditModes[index.Name])
+                    {
+                        <textarea class="form-control" @bind="index.Name"></textarea>
+                    }
+                    else
+                    {
+                        @index.Name
+                    }
+                </td>
+                <td>
+                    @if (intEditModes.ContainsKey(index.SeatNumber) && intEditModes[index.SeatNumber])
+                    {
+                        <textarea class="form-control" @bind="index.SeatNumber"></textarea>
+                    }
+                    else
+                    {
+                        @index.SeatNumber
+                    }
+                </td>
+                <td>
+                    @if (intEditModes.ContainsKey(index.Id) && intEditModes[index.Id])
+                    {
+                        <button type="button" class="btn btn-success" @onclick="() => SaveAudience(index)">Save</button>
+                        <button type="button" class="btn btn-secondary" @*@onclick="() => Cancel(index)" *@>Cancel</button>
+
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-outline-secondary" @onclick="() => Edit(index)">Edit</button>
+                    }
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger" @onclick="() => Delete(index)">Delete</button>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+@code {
+    public Audience audiModel = new Audience();
+
+    public List<Audience> audiService { get; set; }
+
+    [Inject]
+    public IAudienceService audienceService { get; set; }
+
+    public async Task PopulateData()
+    {
+        audiService = audienceService.GetListAudience();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        PopulateData();
+    }
+
+    private void AddToList()
+    {
+        audienceService.Insert(audiModel);
+        PopulateData();
+    }
+
+    // DELETE
+    private void Delete(Audience audi)
+    {
+        audi.IsDeleted = true;
+        audienceService.Delete(audi);
+
+        audi.IsDeleting = true;
+        StateHasChanged();
+    }
+
+    // EDIT
+    public Dictionary<string, bool> stringEditModes = new Dictionary<string, bool>();
+    public Dictionary<int, bool> intEditModes = new Dictionary<int, bool>();
+    private Dictionary<string, Audience> originalAudience = new Dictionary<string, Audience>();
+
+    public Audience editingAudience { get; set; }
+
+    private void Edit(Audience audience)
+    {
+        intEditModes[audience.Id] = true;
+
+        // Store a copy of the original employee
+        if (!originalAudience.ContainsKey(audience.Id.ToString()))
+        {
+            originalAudience[audience.Id.ToString()] = new Audience
+                {
+                    Id = audience.Id,
+                    Name = audience.Name,
+                    SeatNumber = audience.SeatNumber
+                };
+        }
+    }
+
+    private Task SaveAudience(Audience audience)
+    {
+        intEditModes[audience.Id] = false;
+        PopulateData();
+        return Task.CompletedTask;
+    }
+}

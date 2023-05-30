@@ -1,0 +1,17 @@
+D:\Use Case\Concert\Concert\UseCase.Service\obj\Debug\net6.0\UseCase.Service.csproj.AssemblyReference.cache
+D:\Use Case\Concert\Concert\UseCase.Service\obj\Debug\net6.0\UseCase.Service.GeneratedMSBuildEditorConfig.editorconfig
+D:\Use Case\Concert\Concert\UseCase.Service\obj\Debug\net6.0\UseCase.Service.AssemblyInfoInputs.cache
+D:\Use Case\Concert\Concert\UseCase.Service\obj\Debug\net6.0\UseCase.Service.AssemblyInfo.cs
+D:\Use Case\Concert\Concert\UseCase.Service\obj\Debug\net6.0\UseCase.Service.csproj.CoreCompileInputs.cache
+D:\Use Case\Concert\Concert\UseCase.Service\bin\Debug\net6.0\UseCase.Service.deps.json
+D:\Use Case\Concert\Concert\UseCase.Service\bin\Debug\net6.0\UseCase.Service.dll
+D:\Use Case\Concert\Concert\UseCase.Service\bin\Debug\net6.0\UseCase.Service.pdb
+D:\Use Case\Concert\Concert\UseCase.Service\bin\Debug\net6.0\UseCase.Entity.dll
+D:\Use Case\Concert\Concert\UseCase.Service\bin\Debug\net6.0\UseCase.Repository.dll
+D:\Use Case\Concert\Concert\UseCase.Service\bin\Debug\net6.0\UseCase.Repository.pdb
+D:\Use Case\Concert\Concert\UseCase.Service\bin\Debug\net6.0\UseCase.Entity.pdb
+D:\Use Case\Concert\Concert\UseCase.Service\obj\Debug\net6.0\UseCase.Service.csproj.CopyComplete
+D:\Use Case\Concert\Concert\UseCase.Service\obj\Debug\net6.0\UseCase.Service.dll
+D:\Use Case\Concert\Concert\UseCase.Service\obj\Debug\net6.0\refint\UseCase.Service.dll
+D:\Use Case\Concert\Concert\UseCase.Service\obj\Debug\net6.0\UseCase.Service.pdb
+D:\Use Case\Concert\Concert\UseCase.Service\obj\Debug\net6.0\ref\UseCase.Service.dll

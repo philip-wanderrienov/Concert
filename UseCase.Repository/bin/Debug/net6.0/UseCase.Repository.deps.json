@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "UseCase.Repository/1.0.0": {
+        "dependencies": {
+          "UseCase.Entity": "1.0.0"
+        },
+        "runtime": {
+          "UseCase.Repository.dll": {}
+        }
+      },
+      "UseCase.Entity/1.0.0": {
+        "runtime": {
+          "UseCase.Entity.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "UseCase.Repository/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UseCase.Entity/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

@@ -1,0 +1,196 @@
+﻿@page "/concertWithRadzen"
+
+@using Entity;
+@using Service;
+@using Repository;
+@inject NotificationService NotificationService;
+@inject IAudienceService audienceService;
+
+<h2>Concert with Radzen Component</h2>
+
+<p>Making a section website using Radzen component in all aspect.</p>
+
+<!-- CSS -->
+<style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, 2fr); /* Three columns */
+        grid-gap: 30px;
+    }
+
+    .grid-item {
+        /*background-color: #ccc;*/
+        padding: 0px;
+    }
+</style>
+
+<div class="grid-container">
+    <RadzenFormField Text="Your ID" Variant="@variant" Style="font-size: 14px" class="grid-item">
+        <RadzenAutoComplete Data=@AudiencesNewList @bind-Value="@Id" />
+    </RadzenFormField>
+    <RadzenFormField Text="Your Name" Variant="@variant" Style="font-size: 14px" class="grid-item">
+        <RadzenAutoComplete Data=@AudiencesNewList @bind-Value="@Name" />
+    </RadzenFormField>
+    <RadzenFormField Text="Seat Number" Variant="@variant" Style="font-size: 14px" class="grid-item">
+        <RadzenAutoComplete Data=@AudiencesNewList @bind-Value="@SeatNumber" />
+    </RadzenFormField>
+</div>
+<br />
+<RadzenButton Click=@(args => OnClick("Primary button")) Text="Submit" ButtonStyle="ButtonStyle.Success" />
+
+<br />
+
+<table class="table align-content-between">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Seat Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var index in audiService)
+        {
+            <tr>
+                <td>
+                    @if (intEditModes.ContainsKey(index.Id) && intEditModes[index.Id])
+                    {
+                        <textarea class="form-control" @bind="index.Id"></textarea>
+                    }
+                    else
+                    {
+                        @index.Id
+                    }
+                </td>
+                <td>
+                    @if (stringEditModes.ContainsKey(index.Name) && stringEditModes[index.Name])
+                    {
+                        <textarea class="form-control" @bind="index.Name"></textarea>
+                    }
+                    else
+                    {
+                        @index.Name
+                    }
+                </td>
+                <td>
+                    @if (intEditModes.ContainsKey(index.SeatNumber) && intEditModes[index.SeatNumber])
+                    {
+                        <textarea class="form-control" @bind="index.SeatNumber"></textarea>
+                    }
+                    else
+                    {
+                        @index.SeatNumber
+                    }
+                </td>
+                <td>
+                    @if (intEditModes.ContainsKey(index.Id) && intEditModes[index.Id])
+                    {
+                        <button type="button" class="btn btn-success" @onclick="() => SaveAudience(index)">Save</button>
+                        <button type="button" class="btn btn-secondary" @*@onclick="() => Cancel(index)" *@>Cancel</button>
+
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-outline-secondary" @onclick="() => Edit(index)">Edit</button>
+                    }
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger" @onclick="() => Delete(index)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    Variant variant = Variant.Outlined;
+
+    //string autoCompleteValue = "";
+    string Id = "";
+    string Name = "";
+    string SeatNumber = "";
+
+    List<string> AudiencesNewList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        // Get the list of company names from the CompanyService
+        //AudiencesNewList = audienceService.GetListAudience();
+        List<Audience> audiences = audienceService.GetListAudience();
+        AudiencesNewList = audiences.Select(i => i.Id.ToString()).ToList();
+        AudiencesNewList = audiences.Select(a => a.Name).ToList();
+        AudiencesNewList = audiences.Select(sn => sn.SeatNumber.ToString()).ToList();
+
+        PopulateData();
+    }
+
+
+    private void OnClick(string text)
+    {
+        NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Button Clicked", Detail = text });
+    }
+
+
+
+    public Audience audiModel = new Audience();
+
+    public List<Audience> audiService { get; set; }
+
+    public async Task PopulateData()
+    {
+        audiService = audienceService.GetListAudience();
+    }
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    PopulateData();
+    //}
+
+    private void AddToList()
+    {
+        audienceService.Insert(audiModel);
+        PopulateData();
+    }
+
+    // DELETE
+    private void Delete(Audience audi)
+    {
+        audi.IsDeleted = true;
+        audienceService.Delete(audi);
+
+        audi.IsDeleting = true;
+        StateHasChanged();
+    }
+
+    // EDIT
+    public Dictionary<string, bool> stringEditModes = new Dictionary<string, bool>();
+    public Dictionary<int, bool> intEditModes = new Dictionary<int, bool>();
+    private Dictionary<int, Audience> originalAudience = new Dictionary<int, Audience>();
+
+    public Audience editingAudience { get; set; }
+
+    private void Edit(Audience audience)
+    {
+        intEditModes[audience.Id] = true;
+
+        // Store a copy of the original employee
+        if (!originalAudience.ContainsKey(audience.Id))
+        {
+            originalAudience[audience.Id] = new Audience
+                {
+                    Id = audience.Id,
+                    Name = audience.Name,
+                    SeatNumber = audience.SeatNumber
+                };
+        }
+    }
+
+    private Task SaveAudience(Audience audience)
+    {
+        intEditModes[audience.Id] = false;
+        PopulateData();
+        return Task.CompletedTask;
+    }
+}

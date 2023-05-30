@@ -1,0 +1,131 @@
+{
+  "version": 3,
+  "targets": {
+    "net6.0": {
+      "UseCase.Entity/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/UseCase.Entity.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/UseCase.Entity.dll": {}
+        }
+      },
+      "UseCase.Repository/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "UseCase.Entity": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/UseCase.Repository.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/UseCase.Repository.dll": {}
+        }
+      },
+      "UseCase.Service/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "UseCase.Repository": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/UseCase.Service.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/UseCase.Service.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "UseCase.Entity/1.0.0": {
+      "type": "project",
+      "path": "../UseCase.Entity/UseCase.Entity.csproj",
+      "msbuildProject": "../UseCase.Entity/UseCase.Entity.csproj"
+    },
+    "UseCase.Repository/1.0.0": {
+      "type": "project",
+      "path": "../UseCase.Repository/UseCase.Repository.csproj",
+      "msbuildProject": "../UseCase.Repository/UseCase.Repository.csproj"
+    },
+    "UseCase.Service/1.0.0": {
+      "type": "project",
+      "path": "../UseCase.Service/UseCase.Service.csproj",
+      "msbuildProject": "../UseCase.Service/UseCase.Service.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net6.0": [
+      "UseCase.Entity >= 1.0.0",
+      "UseCase.Service >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\philip.wanderrienov\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "D:\\Use Case\\Concert\\Concert\\Main\\Main.csproj",
+      "projectName": "Main",
+      "projectPath": "D:\\Use Case\\Concert\\Concert\\Main\\Main.csproj",
+      "packagesPath": "C:\\Users\\philip.wanderrienov\\.nuget\\packages\\",
+      "outputPath": "D:\\Use Case\\Concert\\Concert\\Main\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\philip.wanderrienov\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net6.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "projectReferences": {
+            "D:\\Use Case\\Concert\\Concert\\UseCase.Entity\\UseCase.Entity.csproj": {
+              "projectPath": "D:\\Use Case\\Concert\\Concert\\UseCase.Entity\\UseCase.Entity.csproj"
+            },
+            "D:\\Use Case\\Concert\\Concert\\UseCase.Service\\UseCase.Service.csproj": {
+              "projectPath": "D:\\Use Case\\Concert\\Concert\\UseCase.Service\\UseCase.Service.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net6.0": {
+        "targetAlias": "net6.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

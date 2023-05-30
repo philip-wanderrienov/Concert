@@ -1,0 +1,182 @@
+﻿@page "/component"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Navigations
+@using UseCase.Service
+@using UseCase.Entity
+@inject IAudienceService audienceService
+
+@using Radzen.Blazor
+
+<PageTitle>Radzen Component</PageTitle>
+
+
+@*<!-- SYNCFUSION -->
+<div class="control-container">
+    <SfCarousel>
+        <CarouselItem>
+            <figure class="img-container">
+                <img src="images/carousel/bridge.png" alt="Golden Gate Bridge, San Francisco" style="height:100%;width:100%;" />
+                <figcaption class="img-caption">Golden Gate Bridge, San Francisco</figcaption>
+            </figure>
+        </CarouselItem>
+        <CarouselItem>
+            <figure class="img-container">
+                <img src="images/carousel/trees.png" alt="Spring Flower Trees" style="height:100%;width:100%;" />
+                <figcaption class="img-caption">Spring Flower Trees</figcaption>
+            </figure>
+        </CarouselItem>
+        <CarouselItem>
+            <figure class="img-container">
+                <img src="images/carousel/waterfall.png" alt="Oddadalen Waterfalls, Norway" style="height:100%;width:100%;" />
+                <figcaption class="img-caption">Oddadalen Waterfalls, Norway</figcaption>
+            </figure>
+        </CarouselItem>
+        <CarouselItem>
+            <figure class="img-container">
+                <img src="images/carousel/sea.png" alt="Anse Source d'Argent, Seychelles" style="height:100%;width:100%;" />
+                <figcaption class="img-caption">Anse Source d'Argent, Seychelles</figcaption>
+            </figure>
+        </CarouselItem>
+        <CarouselItem>
+            <figure class="img-container">
+                <img src="images/carousel/rocks.png" alt="Stonehenge, England" style="height:100%;width:100%;" />
+                <figcaption class="img-caption">Stonehenge, England</figcaption>
+            </figure>
+        </CarouselItem>
+    </SfCarousel>
+</div>
+
+<style>
+    .control-container {
+        background-color: #e5e5e5;
+        height: 300px;
+        margin: 0 auto;
+        width: 500px;
+    }
+
+    .e-carousel .e-carousel-items .e-carousel-item .img-container {
+        height: 100%;
+    }
+
+    .e-carousel .e-carousel-items .e-carousel-item .img-caption {
+        bottom: 4em;
+        color: #fff;
+        font-size: 12pt;
+        height: 2em;
+        position: relative;
+        padding: 0.3em 1em;
+        text-align: center;
+        width: 100%;
+    }
+</style>*@
+
+
+
+<!-- RADZEN TEMPLATE FORM COMPONENT -->
+<RadzenTemplateForm TItem="Person" Data=@model Submit=@OnSubmit>
+    <p>
+        <RadzenLabel Component="FirstName" Text="First name" />
+        <RadzenTextBox Name="FirstName" @bind-Value=@model.FirstName />
+        <RadzenRequiredValidator Component="FirstName" Text="First name is required!" />
+    </p>
+    <p>
+        <RadzenLabel Component="LastName" Text="Last name" />
+        <RadzenTextBox Name="LastName" @bind-Value=@model.LastName />
+        <RadzenRequiredValidator Component="LastName" Text="Last name is required!" />
+    </p>
+    <RadzenButton ButtonType="ButtonType.Submit" Text="Save" />
+</RadzenTemplateForm>
+@code {
+    class Person
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+    }
+
+    Person model = new Person();
+
+    void OnSubmit(Person person)
+    {
+    }
+}
+
+<br />
+
+<!-- RADZEN GOOGLE MAPS COMPONENT -->
+<p>
+    Show marker for Madrid
+    <RadzenCheckBox @bind-Value=@showMadridMarker />
+</p>
+<RadzenGoogleMap style="height: 450px" Zoom=@zoom Center=@(new GoogleMapPosition() { Lat = 42.6977, Lng = 23.3219 }) MapClick=@OnMapClick MarkerClick=@OnMarkerClick>
+    <Markers>
+        <RadzenGoogleMapqMarker Title="London" Label="London" Position=@(new GoogleMapPosition() { Lat = 51.5074, Lng = 0.1278 }) />
+        <RadzenGoogleMapMarker Title="Paris " Label="Paris" Position=@(new GoogleMapPosition() { Lat = 48.8566, Lng = 2.3522 }) />
+        @if (showMadridMarker)
+        {
+            <RadzenGoogleMapMarker Title="Madrid " Label="Madrid" Position=@(new GoogleMapPosition() { Lat = 40.4168, Lng = -3.7038 }) />
+        }
+    </Markers>
+</RadzenGoogleMap>
+@code {
+    int zoom = 3;
+    bool showMadridMarker;
+    //EventConsole console;
+    string clickedPosition = "";
+
+    void OnMapClick(GoogleMapClickEventArgs args)
+    {
+        //console.Log($"Map clicked at Lat: {args.Position.Lat}, Lng: {args.Position.Lng}");
+        clickedPosition = $"Map clicked at Lat: {args.Position.Lat}, Lng: {args.Position.Lng}";
+    }
+
+    void OnMarkerClick(RadzenGoogleMapMarker marker)
+    {
+        //console.Log($"Map {marker.Title} marker clicked. Marker position -> Lat: {marker.Position.Lat}, Lng: {marker.Position.Lng}");
+        clickedPosition = $"Map {marker.Title} marker clicked. Marker position -> Lat: {marker.Position.Lat}, Lng: {marker.Position.Lng}";
+    }
+}
+
+<br />
+
+<!-- RADZEN FILE UPLOAD COMPONENT -->
+Single file upload
+<RadzenUpload Url="upload/single" Progress="@((args) => OnProgress(args, "Single file upload"))" />
+
+Multiple files upload
+<RadzenUpload Multiple="true" Url="upload/multiple" Progress="@((args) => OnProgress(args, "Multiple files upload"))" />
+
+Upload images only
+<RadzenUpload Multiple="true" Accept="image/*" Url="upload/multiple" Progress="@((args) => OnProgress(args, "Images only upload"))" />
+
+Upload with additional parameter
+<RadzenUpload Multiple="true" Accept="image/*" Url=@($"upload/{1}") Progress="@((args) => OnProgress(args, "Upload with additional parameter"))" />
+
+@code {
+    int progress;
+    string info;
+
+    void OnProgress(UploadProgressArgs args, string name)
+    {
+        this.info = $"% '{name}' / {args.Loaded} of {args.Total} bytes.";
+        this.progress = args.Progress;
+    }
+}
+
+<br />
+
+<!-- RADZEN TREE COMPONENT -->
+<RadzenTree>
+    <RadzenTreeItem Text="BMW">
+        <RadzenTreeItem Text="M3" />
+        <RadzenTreeItem Text="M5" />
+    </RadzenTreeItem>
+    <RadzenTreeItem Text="Audi">
+        <RadzenTreeItem Text="RS4" />
+        <RadzenTreeItem Text="RS6" />
+    </RadzenTreeItem>
+    <RadzenTreeItem Text="Mercedes">
+        <RadzenTreeItem Text="C63 AMG" />
+        <RadzenTreeItem Text="S63 AMG" />
+    </RadzenTreeItem>
+</RadzenTree>
